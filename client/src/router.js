@@ -4,6 +4,7 @@ import IndexPage from './routes/IndexPage';
 import VocabPage from './routes/VocabPage';
 import AdminPage from './routes/AdminPage';
 import AudioPage from './routes/AudioPage';
+import HomePage from './routes/HomePage';
 
 export default function({ history }) {
   return (
@@ -12,6 +13,7 @@ export default function({ history }) {
             <Route path="vocab" component={VocabPage} />
             <Route path="audio" component={AudioPage} />
             <Route path="admin" component={AdminPage} />
+            <IndexRoute component={HomePage} />
         </Route>
     </Router>
   );

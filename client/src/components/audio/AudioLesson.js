@@ -37,7 +37,7 @@ class AudioLesson extends React.Component {
     }
 
     isValid = () => {
-        return this.state.guess == this.state.solution;
+        return this.state.guess && this.state.guess.replace(' ', '') == this.state.solution;
     }
 
     render() {

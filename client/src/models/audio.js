@@ -1,7 +1,7 @@
 import Chance from 'chance';
 const chance = new Chance();
 
-const pad = (i, n) => ('0'.repeat(n) + String(i)).slice(String(i).length)
+const pad = (i, n) => ('0'.repeat(n) + String(i)).slice(String(i).length);
 const random = (mode) => {
     if (mode == 'number') return chance.natural({max: 999999});
     if (mode == 'date') return chance.date().toISOString().slice(0,10).replace(/-/g,'/');
@@ -10,7 +10,13 @@ const random = (mode) => {
         let minute = chance.natural({max: 60});
         return pad(hour, 2) + ':' + pad(minute, 2);
     }
-}
+};
+const play = (audio) => {
+    return new Promise((resolve) => {
+        audio.onended = resolve;
+        audio.play();
+    });
+};
 
 export default {
 
@@ -32,7 +38,7 @@ export default {
                 const state = yield select(models => models.audio);
                 sound = yield new Audio(`/api/voice?speed=${state.speed}&text=${encodeURIComponent(state.solution)}`); 
             } 
-            yield sound.play();
+            yield play(sound);
             yield put({ type: 'endLoading', payload: { sound } });
         }
     },
