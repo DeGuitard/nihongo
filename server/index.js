@@ -9,7 +9,7 @@ var app = express()
 var voicetext = require('voicetext');
 var voice = new voicetext('2i2sjwtslcizy91h');
 
-app.use(express.static('public'))
+app.use(express.static('../client/dist'));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
@@ -69,4 +69,4 @@ app.get('/api/voice', (req, res) => {
         .speak(decodeURIComponent(req.query.text), (e, buffer) => res.send(buffer))
 })
 
-app.listen(3000, () => console.log('Application listening on port 3000.'))
+app.listen(7900, () => console.log('Application listening on port 7900.'))
