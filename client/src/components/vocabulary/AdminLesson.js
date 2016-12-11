@@ -4,6 +4,7 @@ import { Alert, Button, Card, Icon, Popconfirm, Table } from 'antd';
 const AdminLesson = ({ error, loading, lesson, onEdit, onDelete }) => {
     if (error) return ( <Alert message="Mince, nous n'avons pas réussi à charger la leçon :(." type="error" showIcon />  );
     if (lesson === undefined) return null;
+    const emptyEntry = { translations: [] };
 
     const columns = [
         { title: 'Expression', dataIndex: 'expression', key: 'expression' },
@@ -21,7 +22,7 @@ const AdminLesson = ({ error, loading, lesson, onEdit, onDelete }) => {
     return (
         <Card>
             <Table loading={loading} dataSource={lesson.entries} columns={columns} pagination={false} locale={{emptyText: 'Cette leçon est vide, pour le moment.'}} />
-            <Button style={{marginTop: '10px'}} type="primary" icon="plus" onClick={() => onEdit({})}>Ajouter</Button>
+            <Button style={{marginTop: '10px'}} type="primary" icon="plus" onClick={() => onEdit(emptyEntry)}>Ajouter</Button>
         </Card>
     );
 };

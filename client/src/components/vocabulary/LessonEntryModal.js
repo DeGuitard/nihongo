@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, Form, Input, Modal, Switch } from 'antd';
+import { Alert, Button, Form, Input, Modal, Switch, Tag, Tooltip } from 'antd';
 import WanaKana from 'wanakana';
 import KanjiInput from '../common/KanjiInput.js';
 
@@ -7,6 +7,7 @@ class LessonEntryModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = this.getStateFromProps(props); 
+        this.state.inputVisible = false;
     }
 
     componentWillReceiveProps(nextProps) {
@@ -23,8 +24,7 @@ class LessonEntryModal extends React.Component {
     }
 
     handleTranslationChange = ({ target }) => {
-        const newEntry = { ...this.state.entry, translation: target.value }; 
-        this.setState({ entry: newEntry });
+        this.setState({ newTranslation: target.value });
     }
 
     handleTranscriptionChange = ({ target }) => {
@@ -33,26 +33,40 @@ class LessonEntryModal extends React.Component {
         this.setState({ entry: newEntry });
     }
 
-    submit = () => {
-        console.log('lol');
+    handleNewTranslation = () => {
+        const { entry, newTranslation } = this.state;
+        if (newTranslation && entry.translations.indexOf(newTranslation) === -1) {
+            entry.translations  = [ ...entry.translations, newTranslation ];
+        }
+        this.setState({ entry, inputVisible: false, newTranslation: '' });
     }
 
+    handleRemoveTranslation = (translation) => {
+        const newEntry = this.state.entry;
+        newEntry.translations = newEntry.translations.filter(val => val !== translation);
+        this.setState({ entry: newEntry });
+    }
+
+    showInput = () => {
+        this.setState({ inputVisible: true })
+    };
+
     render() {
-        const entry = this.state.entry;
+        const { entry, visible, onCancel, onOk, error, inputVisible } = this.state;
         if (entry === undefined) return null;
 
         const modalProps = {
             title: "Édition d'entrée",
             okText: "OK",
             cancelText: "Annuler",
-            visible: this.state.visible,
-            onOk: () => { this.state.onOk(this.state.entry) },
-            onCancel: this.state.onCancel
+            visible,
+            onOk: () => { onOk(this.state.entry) },
+            onCancel
         };
 
         return (
             <Modal { ...modalProps }>
-                { this.state.error ? <Alert message="Mince, nous n'avons pas réussi à sauvegarder les modifications :(." type="error" showIcon /> : undefined }
+                { error ? <Alert message="Mince, nous n'avons pas réussi à sauvegarder les modifications :(." type="error" showIcon /> : undefined }
                 <Form onSubmit={this.submit}>
                     <Form.Item label="Expression">
                         <KanjiInput onChange={this.handleExpressionChange} value={entry.expression} /> 
@@ -60,8 +74,18 @@ class LessonEntryModal extends React.Component {
                     <Form.Item label="Transcription">
                         <Input onChange={this.handleTranscriptionChange} value={entry.transcription} />
                     </Form.Item>
-                    <Form.Item label="Traduction">
-                        <Input onChange={this.handleTranslationChange} value={entry.translation} />
+                    <Form.Item label="Traductions">
+                        {entry.translations.map((tag, index) => {
+                            const isLongTag = tag.length > 20;
+                            const tagElem = (
+                                <Tag key={tag} closable={index !== 0} afterClose={() => this.handleRemoveTranslation(tag)}>
+                                    {isLongTag ? `${tag.slice(0, 20)}...` : tag}
+                                </Tag>
+                            );
+                            return isLongTag ? <Tooltip key={tag} title={tag}>{tagElem}</Tooltip> : tagElem;
+                        })}
+                        { inputVisible && <Input style={{width: 150}} size="small" onChange={this.handleTranslationChange} onBlur={this.handleNewTranslation} onPressEnter={this.handleNewTranslation} /> }
+                        { !inputVisible && <Button size="small" type="dashed" onClick={this.showInput}>+ Ajouter</Button> }
                     </Form.Item>
                 </Form>
             </Modal>

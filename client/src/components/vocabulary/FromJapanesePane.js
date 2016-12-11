@@ -18,8 +18,8 @@ class FromJapanesePane extends React.Component {
     getStateFromProps({ lesson, entryIndex, onNext }) {
         const lessonEntry = lesson.entries[entryIndex];
         const expression = lessonEntry.expression;
-        const translation = lessonEntry.translation;
-        return { lessonEntry, translation, expression, onNext };
+        const translations = lessonEntry.translations;
+        return { lessonEntry, translations, expression, onNext };
     }
 
     handleInputChange = ({ target }) => {
@@ -28,7 +28,8 @@ class FromJapanesePane extends React.Component {
     }
 
     isValid = () => {
-        return this.state.typedTranslation.trim().toUpperCase() === this.state.translation.toUpperCase();
+        const typedTranslation = this.state.typedTranslation.trim().toUpperCase();
+        return this.state.translations.some(translation => translation.toUpperCase() === typedTranslation );
     }
 
     next = (e) => {

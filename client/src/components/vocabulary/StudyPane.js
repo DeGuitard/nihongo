@@ -7,7 +7,7 @@ const StudyPane = ({ lesson, entryIndex, onNext, onPrevious }) => {
     const lessonEntry = lesson.entries[entryIndex];
     const expression = lessonEntry.expression;
     const transcription = lessonEntry.transcription;
-    const translation = lessonEntry.translation;
+    const translations = lessonEntry.translations;
 
     const canNext = entryIndex < lesson.entries.length - 1;
     const canPrevious = entryIndex > 0;
@@ -22,7 +22,7 @@ const StudyPane = ({ lesson, entryIndex, onNext, onPrevious }) => {
                 <span>{ transcription }</span>
             </div>
 
-            <h3 className={styles.translation}>{ translation }</h3>
+            <h3 className={styles.translation}>{ translations.join(', ') }</h3>
 
             <Button.Group>
                 <Button type="primary" onClick={onPrevious} disabled={!canPrevious}>

@@ -25,8 +25,8 @@ class KanjiInput extends React.Component {
     handleInput = ({ target }) => {
         if (this.state.toKanji) {
             // Find the first non-kana character (i.e. romaji), that will be used to look for kanjis, then converts it to kana.
-            const firstRomajiIndex = target.value.search(/[a-zA-Z]/);
-            const transcription = WanaKana.toKana(target.value.substr(firstRomajiIndex, target.value.length));
+            const romaji = target.value.match(/[a-zA-Z\.]+/)[0];
+            const transcription = WanaKana.toKana(romaji);
             const kunMatches = kanjidic.filter(kanji => kanji.kunyomi ? kanji.kunyomi.some(val => val === transcription) : false);
             const onMatches = kanjidic.filter(kanji => kanji.onyomi ? kanji.onyomi.some(val => val === transcription) : false);
             this.setState({ matches: onMatches.concat(kunMatches), text: target.value }); 
