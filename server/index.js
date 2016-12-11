@@ -64,7 +64,7 @@ app.delete('/api/lesson/:lessonId/entry/:entryId', (req, res) => {
 
 app.get('/api/voice', (req, res) => {
     voice
-        .format(voice.FORMAT.AAC)
+        .format(voice.FORMAT.OGG)
         .speed(req.query.speed)
         .speak(decodeURIComponent(req.query.text), (e, buffer) => res.send(buffer))
 })

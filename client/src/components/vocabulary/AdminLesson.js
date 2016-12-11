@@ -9,7 +9,7 @@ const AdminLesson = ({ error, loading, lesson, onEdit, onDelete }) => {
     const columns = [
         { title: 'Expression', dataIndex: 'expression', key: 'expression' },
         { title: 'Transcription', dataIndex: 'transcription', key: 'transcription' },
-        { title: 'Translation', dataIndex: 'translation', key: 'translation' },
+        { title: 'Traductions', key: 'translations', render: (text, record) => record.translations.join(', ') },
         { title: 'Opération', key: 'operation', render: (text, record) => (
             <span>
                 <Button type="ghost" shape="circle" icon="edit" onClick={() => onEdit(record)} /> &nbsp;
