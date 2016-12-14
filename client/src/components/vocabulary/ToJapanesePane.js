@@ -2,15 +2,6 @@ import React from 'react';
 import { Button, Form, Icon, Input, Select } from 'antd';
 import WanaKana from 'wanakana';
 
-const Option = Select.Option;
-
-// Utility function. Extracts from a lesson all possibles expressions.
-const getExpressionList = (lesson) => {
-    let expressionList = [];
-    lesson.entries.forEach((el) => expressionList.push(el.expression));
-    return expressionList;
-}
-
 class ToJapanesePane extends React.Component {
 
     constructor(props) {
@@ -25,7 +16,9 @@ class ToJapanesePane extends React.Component {
     getStateFromProps({ lesson, entryIndex, onNext }) {
         const lessonEntry = lesson.entries[entryIndex];
         const translations = lessonEntry.translations;
-        const expressionList = getExpressionList(lesson);
+        const expressionList = lesson.entries
+            .map(el => el.expression)
+            .sort((a,b) => a > b);
         return { lessonEntry, translations, expressionList, onNext };
     }
 
@@ -61,8 +54,8 @@ class ToJapanesePane extends React.Component {
                 </Form.Item>
                 <Form.Item validateStatus={this.isExpressionValid() ? 'success' : 'error'}>
                     <Select placeholder="Expression" value={this.state.selectedExpression} onChange={this.handleSelectChange}>
-                        {this.state.expressionList.sort((a,b) => a > b).map((val, i) => 
-                            <Option value={val} key={i}>{val}</Option>
+                        {this.state.expressionList.map((val, i) => 
+                            <Select.Option value={val} key={i}>{val}</Select.Option>
                         )}
                     </Select>
                 </Form.Item>

@@ -25,12 +25,8 @@ const VocabPage = ({ dispatch, lessons }) => {
         lesson: currentLesson,
         error: lessonError,
         entryIndex,
-        onNext: () => {
-            dispatch({ type: 'lessons/nextEntry' });
-        },
-        onPrevious: () => {
-            dispatch({ type: 'lessons/previousEntry' });
-        }
+        onNext: () => dispatch({ type: 'lessons/nextEntry' }),
+        onPrevious: () => dispatch({ type: 'lessons/previousEntry' })
     };
 
     return (
