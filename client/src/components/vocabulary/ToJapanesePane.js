@@ -61,7 +61,7 @@ class ToJapanesePane extends React.Component {
                 </Form.Item>
                 <Form.Item validateStatus={this.isExpressionValid() ? 'success' : 'error'}>
                     <Select placeholder="Expression" value={this.state.selectedExpression} onChange={this.handleSelectChange}>
-                        {this.state.expressionList.map((val, i) => 
+                        {this.state.expressionList.sort((a,b) => a > b).map((val, i) => 
                             <Option value={val} key={i}>{val}</Option>
                         )}
                     </Select>

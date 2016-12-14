@@ -78,7 +78,7 @@ class LessonEntryModal extends React.Component {
                         {entry.translations.map((tag, index) => {
                             const isLongTag = tag.length > 20;
                             const tagElem = (
-                                <Tag key={tag} closable={index !== 0} afterClose={() => this.handleRemoveTranslation(tag)}>
+                                <Tag key={tag} closable={true} afterClose={() => this.handleRemoveTranslation(tag)}>
                                     {isLongTag ? `${tag.slice(0, 20)}...` : tag}
                                 </Tag>
                             );
