@@ -40,7 +40,7 @@ class ToJapanesePane extends React.Component {
     }
 
     next = (e) => {
-        if (!this.isTranscriptionValid() || !this.isExpressionValid()) return;
+        if (!this.isTranscriptionValid() && !this.isExpressionValid()) return;
         if (e !== undefined) e.preventDefault();
         this.setState({ typedTranscription: '', selectedExpression: undefined });
         this.state.onNext();
@@ -63,7 +63,7 @@ class ToJapanesePane extends React.Component {
                     <Input placeholder="Transcription" value={this.state.typedTranscription} onChange={this.handleInputChange} />
                 </Form.Item>
                 <Form.Item>
-                    <Button type="primary" disabled={!this.isTranscriptionValid() || !this.isExpressionValid()} onClick={this.next}>
+                    <Button type="primary" disabled={!this.isTranscriptionValid() && !this.isExpressionValid()} onClick={this.next}>
                         Suivant <Icon type="right" />
                     </Button>
                 </Form.Item>

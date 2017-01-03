@@ -18,8 +18,9 @@ class FromJapanesePane extends React.Component {
     getStateFromProps({ lesson, entryIndex, onNext }) {
         const lessonEntry = lesson.entries[entryIndex];
         const expression = lessonEntry.expression;
+        const transcription = lessonEntry.transcription;
         const translations = lessonEntry.translations;
-        return { lessonEntry, translations, expression, onNext };
+        return { lessonEntry, translations, expression, transcription, onNext };
     }
 
     handleInputChange = ({ target }) => {
@@ -44,6 +45,7 @@ class FromJapanesePane extends React.Component {
             <Form onSubmit={this.next}>
                 <Form.Item>
                     <h2 style={{"textAlign": "center"}}>{ this.state.expression }</h2>
+                    <h3 style={{"textAlign": "center"}}>{ this.state.transcription }</h3>
                 </Form.Item>
                 <Form.Item validateStatus={this.isValid() ? 'success' : 'error'} hasFeedback>
                     <Input 
