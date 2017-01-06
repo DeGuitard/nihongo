@@ -7,6 +7,7 @@ class ToJapanesePane extends React.Component {
     constructor(props) {
         super(props);
         this.state = this.getStateFromProps(props);
+        this.state.typedTranscription = '';
     }
 
     componentWillReceiveProps(nextProps) {
@@ -32,7 +33,7 @@ class ToJapanesePane extends React.Component {
     }
 
     isTranscriptionValid = () => {
-        return this.state.typedTranscription == this.state.lessonEntry.transcription;
+        return this.state.typedTranscription.trim() == this.state.lessonEntry.transcription;
     }
 
     isExpressionValid = () => {
@@ -40,8 +41,8 @@ class ToJapanesePane extends React.Component {
     }
 
     next = (e) => {
-        if (!this.isTranscriptionValid() && !this.isExpressionValid()) return;
         if (e !== undefined) e.preventDefault();
+        if (!this.isTranscriptionValid() && !this.isExpressionValid()) return;
         this.setState({ typedTranscription: '', selectedExpression: undefined });
         this.state.onNext();
     }
