@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, Icon, Input, Select } from 'antd';
+import { Button, Form, Icon, Input, Select, notification } from 'antd';
 import WanaKana from 'wanakana';
 
 class ToJapanesePane extends React.Component {
@@ -12,6 +12,10 @@ class ToJapanesePane extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         this.setState(this.getStateFromProps(nextProps));
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        this.next();
     }
 
     getStateFromProps({ lesson, entryIndex, onNext }) {
@@ -33,7 +37,9 @@ class ToJapanesePane extends React.Component {
     }
 
     isTranscriptionValid = () => {
-        return this.state.typedTranscription.trim() == this.state.lessonEntry.transcription;
+        const input = this.state.typedTranscription.trim();
+        const entry = this.state.lessonEntry;
+        return input == entry.transcription || input == entry.expression;
     }
 
     isExpressionValid = () => {
@@ -43,6 +49,7 @@ class ToJapanesePane extends React.Component {
     next = (e) => {
         if (e !== undefined) e.preventDefault();
         if (!this.isTranscriptionValid() && !this.isExpressionValid()) return;
+        notification.success({ message: 'ブラボー!', description: 'Réponse correcte' });
         this.setState({ typedTranscription: '', selectedExpression: undefined });
         this.state.onNext();
     }
